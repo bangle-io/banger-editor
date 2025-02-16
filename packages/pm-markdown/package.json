@@ -1,13 +1,18 @@
 {
   "name": "@bangle.dev/pm-markdown",
-  "version": "2.0.0-alpha.15",
+  "version": "2.0.0-alpha.16",
   "author": {
     "name": "Kushan Joshi",
     "email": "0o3ko0@gmail.com",
     "url": "http://github.com/kepta"
   },
   "description": "A modern collection of ProseMirror packages for building powerful editing experiences",
-  "keywords": ["prosemirror", "rich text editor", "editor", "typescript"],
+  "keywords": [
+    "prosemirror",
+    "rich text editor",
+    "editor",
+    "typescript"
+  ],
   "homepage": "https://bangle.io",
   "bugs": {
     "url": "https://github.com/bangle-io/banger-editor/issues"
@@ -23,7 +28,10 @@
     "access": "public"
   },
   "main": "./src/index.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "prepublishOnly": "tsx ../../packages/tooling/scripts/prepublish-run.ts",
     "postpublish": "tsx ../../packages/tooling/scripts/postpublish-run.ts",
