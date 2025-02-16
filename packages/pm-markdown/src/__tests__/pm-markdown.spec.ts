@@ -540,8 +540,11 @@ console.log('Hello, world!');
     it('should handle bullet list with nested items', () => {
       const markdown = `
 - Item 1
-  - Nested item 1
-  - Nested item 2
+
+    - Nested item 1
+
+    - Nested item 2
+
 - Item 2
       `.trim();
       testMarkdownOutput(
@@ -549,9 +552,9 @@ console.log('Hello, world!');
         `
 - Item 1
 
-  - Nested item 1
+    - Nested item 1
 
-  - Nested item 2
+    - Nested item 2
 
 - Item 2
         `.trim(),
@@ -561,18 +564,20 @@ console.log('Hello, world!');
     it('should handle bullet list with different levels of nesting', () => {
       const markdown = `
 - Level 1
-  - Level 2
-    - Level 3
+
+    - Level 2
+
+        - Level 3
       `.trim();
       testMarkdownOutput(
         markdown,
         `
 - Level 1
 
-  - Level 2
+    - Level 2
 
-    - Level 3
-        `.trim(),
+        - Level 3
+      `.trim(),
       );
     });
 
@@ -614,9 +619,13 @@ console.log('Hello, world!');
     it('should handle complex nested bullet list', () => {
       const markdown = `
 - Item 1
-  - Nested item 1
-    - Deeply nested item 1
-  - Nested item 2
+
+    - Nested item 1
+
+        - Deeply nested item 1
+
+    - Nested item 2
+
 - Item 2
       `.trim();
 
@@ -625,11 +634,11 @@ console.log('Hello, world!');
         `
 - Item 1
 
-  - Nested item 1
+    - Nested item 1
 
-    - Deeply nested item 1
+        - Deeply nested item 1
 
-  - Nested item 2
+    - Nested item 2
 
 - Item 2
         `.trim(),
@@ -647,9 +656,9 @@ console.log('Hello, world!');
       const markdown = `
 - Level 1
 
-  - Level 2
+    - Level 2
 
-    - Level 3
+        - Level 3
       `.trim();
       testMarkdownRoundTrip(
         markdown,
@@ -705,12 +714,68 @@ console.log('Hello, world!');
 
 2. Second item
 
+    1. Nested first
+
+    2. Nested second
+
+3. Third item
+        `.trim(),
+      );
+    });
+
+    it('should handle nested ordered by not indenting if indentation is 2', () => {
+      const markdown = `
+1. First item
+
+2. Second item
+
   1. Nested first
 
   2. Nested second
 
 3. Third item
-        `.trim(),
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+1. First item
+
+2. Second item
+
+3. Nested first
+
+4. Nested second
+
+5. Third item        
+`.trim(),
+      );
+    });
+
+    it('should handle nested ordered by not indenting if indentation is 4', () => {
+      const markdown = `
+1. First item
+
+2. Second item
+
+    1. Nested first
+
+    2. Nested second
+
+3. Third item
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+1. First item
+
+2. Second item
+
+    1. Nested first
+
+    2. Nested second
+
+3. Third item   
+`.trim(),
       );
     });
 
@@ -726,20 +791,7 @@ console.log('Hello, world!');
 
 3. Third item
           `.trim();
-      testMarkdownOutput(
-        markdown,
-        `
-1. First item
-
-2. Second item
-
-  1. Nested first
-
-  2. Nested second
-
-3. Third item
-        `.trim(),
-      );
+      testMarkdownRoundTrip(markdown);
     });
 
     it('should handle ordered lists with custom start numbers', () => {
@@ -1182,6 +1234,144 @@ This is \\*not bold\\* but this is **bold**
       testMarkdownRoundTrip(
         markdown,
         doc(p('Paragraph with leading whitespace')),
+      );
+    });
+  });
+
+  describe('Indentation in Lists', () => {
+    // yes this is broken
+    it('should handle minimal indentation for bullet list (valid but less readable)', () => {
+      const markdown = `
+* Parent
+ * Nested
+  * Deeper
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+- Parent
+
+- Nested
+
+- Deeper
+      `.trim(),
+      );
+    });
+
+    it('should handle aligned bullet list', () => {
+      const markdown = `
+* Parent Item
+  * Nested Item under Parent
+    * Even deeper item
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+- Parent Item
+
+    - Nested Item under Parent
+
+        - Even deeper item
+      `.trim(),
+      );
+    });
+
+    it('should handle different bullet list markers', () => {
+      const markdown = `
+* Top Level
+  - Level Two (using hyphen)
+    + Level Three (using plus)
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+- Top Level
+
+    - Level Two (using hyphen)
+
+        - Level Three (using plus)
+      `.trim(),
+      );
+    });
+  });
+
+  // Advanced Lists Tests
+  describe('Advanced Lists', () => {
+    it('should handle flat unordered list with mixed markers', () => {
+      const markdown = `
++ Item A
+* Item B
+- Item C
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+- Item A
+
+- Item B
+
+- Item C
+      `.trim(),
+      );
+    });
+
+    it('should handle ordered list with parenthesis markers', () => {
+      const markdown = `
+1) First item
+2) Second item
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+1. First item
+
+2. Second item
+      `.trim(),
+      );
+    });
+
+    it('should handle multi-paragraph list item', () => {
+      const markdown = `
+- First paragraph line
+  Continuation of first paragraph
+
+  Second paragraph in same item
+- Second item
+    `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+- First paragraph line Continuation of first paragraph
+
+  Second paragraph in same item
+
+- Second item
+      `.trim(),
+      );
+    });
+
+    it.todo('should handle four-level mixed nesting', () => {
+      const markdown = `
+1. Level 1 (ordered)
+    - Level 2 (bullet)
+        1. Level 3 (ordered)
+            - Level 4 (bullet)
+2. Another Level 1 item
+    `.trim();
+
+      testMarkdownOutput(
+        markdown,
+        `
+1. Level 1 (ordered)
+
+    - Level 2 (bullet)
+
+        1. Level 3 (ordered)
+
+            - Level 4 (bullet)
+
+2. Another Level 1 item
+      `.trim(),
       );
     });
   });

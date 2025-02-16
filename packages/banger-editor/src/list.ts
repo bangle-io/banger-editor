@@ -412,7 +412,9 @@ function flatListToMarkdown(
   } else if (attrs?.kind === LIST_KIND.TASK) {
     marker = attrs.checked ? '- [x]' : '- [ ]';
   }
-  const baseIndent = '  '.repeat(level);
+  // making 4 right now to allow ordered lists to be nested
+  // TODO: heterogenous lists involving ordered lists still doesnt work
+  const baseIndent = '    '.repeat(level);
 
   // 4) Wrap each list(...) node as one item.
   //    "wrapBlock" will prefix the first line with (firstDelim) and subsequent lines with (delim).

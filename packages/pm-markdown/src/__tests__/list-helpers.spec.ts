@@ -16,17 +16,17 @@ function getListItemDetails(
   const tokens: Token[] = md.parse(markdown, {});
 
   // Debug: Log the tokens to understand their structure (for test development)
-  // console.log(
-  //   'Tokens:',
-  //   tokens.map((t) => ({
-  //     type: t.type,
-  //     content: t.content,
-  //     map: t.map,
-  //     // @ts-ignore
-  //     tight: t.tight,
-  //     level: t.level,
-  //   })),
-  // );
+  console.log(
+    'Tokens:',
+    tokens.map((t) => ({
+      type: t.type,
+      content: t.content,
+      map: t.map,
+      // @ts-ignore
+      tight: t.tight,
+      level: t.level,
+    })),
+  );
 
   const items: Array<{ content: string; spacing: string }> = [];
   for (let i = 0; i < tokens.length; i++) {
