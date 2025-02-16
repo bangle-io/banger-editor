@@ -311,13 +311,14 @@ describe('Ordered Lists', () => {
     testMarkdownRoundTrip(markdown, doc(createOrderedList('Ordered item', 2)));
   });
 
-  it.skip('handles nested ordered lists', () => {
+  it('handles nested ordered lists correctly', () => {
     const markdown = `
-1. Level 1
-
-  2. Level 2
-`.trim();
-
+1. First item
+2. Second item
+   1. Nested first
+   2. Nested second
+3. Third item
+    `.trim();
     testMarkdownRoundTrip(markdown);
   });
 
