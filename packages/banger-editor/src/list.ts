@@ -450,7 +450,7 @@ function flatListToMarkdown(
 
 function maybeAddBlankLine(
   state: MarkdownSerializerState,
-  node: PMNode,
+  _node: PMNode,
   parent: PMNode | null,
   index: number,
   level: number,
@@ -467,7 +467,7 @@ function maybeAddBlankLine(
   if (index === 0) return;
 
   // 4) Retrieve the *previous* sibling
-  const prevSibling = parent.child(index - 1);
+  const _prevSibling = parent.child(index - 1);
 
   // "flushClose(1)" ensures exactly one blank line,
   // "flushClose(2)" can produce 2 blank lines, etc.
