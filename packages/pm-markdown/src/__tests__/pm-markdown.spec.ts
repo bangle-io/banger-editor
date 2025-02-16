@@ -529,8 +529,11 @@ console.log('Hello, world!');
       `.trim();
       testMarkdownOutput(
         markdown,
-        `- Item 1
-- Item 2`,
+        `
+- Item 1
+
+- Item 2
+        `.trim(),
       );
     });
 
@@ -549,8 +552,9 @@ console.log('Hello, world!');
   - Nested item 1
 
   - Nested item 2
+
 - Item 2
-      `.trim(),
+        `.trim(),
       );
     });
 
@@ -562,11 +566,13 @@ console.log('Hello, world!');
       `.trim();
       testMarkdownOutput(
         markdown,
-        `- Level 1
+        `
+- Level 1
 
   - Level 2
 
-    - Level 3`,
+    - Level 3
+        `.trim(),
       );
     });
 
@@ -578,9 +584,12 @@ console.log('Hello, world!');
       `.trim();
       testMarkdownOutput(
         markdown,
-        `- Item 1
-- Item 2`,
-      ); // TODO: should be loose list
+        `
+- Item 1
+
+- Item 2
+        `.trim(),
+      );
     });
     // TODO: mixed tight/loose lists
     it('should handle tight and loose lists mixed', () => {
@@ -590,7 +599,16 @@ console.log('Hello, world!');
 
 - Item 3
       `.trim();
-      testMarkdownOutput(markdown, '- Item 1\n- Item 2\n- Item 3');
+      testMarkdownOutput(
+        markdown,
+        `
+- Item 1
+
+- Item 2
+
+- Item 3
+        `.trim(),
+      );
     });
 
     it('should handle complex nested bullet list', () => {
@@ -612,6 +630,7 @@ console.log('Hello, world!');
     - Deeply nested item 1
 
   - Nested item 2
+
 - Item 2
         `.trim(),
       );
@@ -683,13 +702,15 @@ console.log('Hello, world!');
         markdown,
         `
 1. First item
+
 2. Second item
 
   1. Nested first
 
   2. Nested second
+
 3. Third item
-`.trim(),
+        `.trim(),
       );
     });
 
@@ -709,11 +730,13 @@ console.log('Hello, world!');
         markdown,
         `
 1. First item
+
 2. Second item
 
   1. Nested first
 
   2. Nested second
+
 3. Third item
         `.trim(),
       );
@@ -729,9 +752,11 @@ console.log('Hello, world!');
         markdown,
         `
 2. First item
+
 3. Second item
+
 4. Third item
-`.trim(),
+        `.trim(),
       );
     });
 
@@ -746,10 +771,13 @@ console.log('Hello, world!');
         markdown,
         `
 1. Ordered item 1
+
 - Bullet sub-item
+
 2. Ordered sub-item
+
 3. Ordered item 2
-`.trim(),
+        `.trim(),
       );
     });
 
@@ -766,9 +794,11 @@ multiple lines
         markdown,
         `
 1. First item
+
 2. Second item with multiple lines
+
 3. Third item
-`.trim(),
+        `.trim(),
       );
     });
 
@@ -782,9 +812,11 @@ multiple lines
         markdown,
         `
 10. Item 1
+
 11. Item 2
+
 12. Item 3
-`.trim(),
+        `.trim(),
       );
     });
 
@@ -798,9 +830,11 @@ multiple lines
         markdown,
         `
 1. Item 1
+
 2. Item 2
+
 3. Item 3
-`.trim(),
+        `.trim(),
       );
     });
   });

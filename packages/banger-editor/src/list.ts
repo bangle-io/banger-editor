@@ -42,15 +42,22 @@ export type ListKindType = (typeof LIST_KIND)[keyof typeof LIST_KIND];
  * Helper to read typed list attributes from a node
  * Returns null if the node is not a list node
  */
-function readListAttrs(
-  node?: PMNode,
-): (ListAttributes & { kind: ListKindType }) | null {
+function readListAttrs(node?: PMNode):
+  | (ListAttributes & {
+      kind: ListKindType;
+      tight?: boolean;
+      order?: number;
+      checked?: boolean;
+      collapsed?: boolean;
+    })
+  | null {
   if (!node || !isListNode(node)) {
     return null;
   }
-  const { kind, checked, collapsed, order } = node.attrs;
+  const { kind, checked, collapsed, order, tight } = node.attrs;
   return {
     kind,
+    tight,
     ...(kind === LIST_KIND.TASK ? { checked } : {}),
     ...(kind === LIST_KIND.TOGGLE ? { collapsed } : {}),
     ...(kind === LIST_KIND.ORDERED ? { order } : {}),
@@ -336,7 +343,14 @@ function markdown(config: RequiredConfig): CollectionType['markdown'] {
       [listNodeName]: {
         // For serialization:
         toMarkdown: (state, node, parent, index) => {
-          flatListToMarkdown(state, node, parent ?? null, index ?? 0, 0, false);
+          flatListToMarkdown(
+            state,
+            node,
+            parent ?? null,
+            index ?? 0,
+            0,
+            node.attrs.tight === false,
+          ); // Pass tight attribute
         },
         // For parsing:
         parseMarkdown: {
@@ -366,7 +380,11 @@ function markdown(config: RequiredConfig): CollectionType['markdown'] {
                   order: Number.isNaN(order) ? null : order,
                 };
               }
-              return { kind: LIST_KIND.BULLET };
+
+              const tightAttr = tok?.attrGet('data-bangle-list-tight');
+              const tight = tightAttr !== 'false';
+
+              return { kind: LIST_KIND.BULLET, tight };
             },
           },
         },
@@ -381,10 +399,10 @@ function flatListToMarkdown(
   parent: PMNode | null,
   index: number,
   level = 0,
-  tight = false,
+  isLooseList = false,
 ) {
   // 1) Possibly add a blank line before this item, depending on tight & previous sibling
-  maybeAddBlankLine(state, node, parent, index, level, tight);
+  maybeAddBlankLine(state, node, parent, index, level, !isLooseList);
 
   // 2) Determine bullet/marker
   let marker = '-';
@@ -418,7 +436,14 @@ function flatListToMarkdown(
   node.forEach((child, childOffset) => {
     if (child.type.name === node.type.name) {
       const childLevel = level + 1;
-      flatListToMarkdown(state, child, node, childOffset, childLevel, tight);
+      flatListToMarkdown(
+        state,
+        child,
+        node,
+        childOffset,
+        childLevel,
+        isLooseList,
+      );
     }
   });
 }
