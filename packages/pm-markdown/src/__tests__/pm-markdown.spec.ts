@@ -368,3 +368,63 @@ multiple lines
     );
   });
 });
+
+describe('Edge Cases', () => {
+  it('handles empty markdown', () => {
+    const markdown = '';
+    testMarkdownRoundTrip(markdown);
+  });
+
+  it('handles markdown with only whitespace', () => {
+    const markdown = '   ';
+    testMarkdownRoundTrip(markdown);
+  });
+
+  it('handles multiple consecutive newlines', () => {
+    const markdown = 'Paragraph one.\n\n\nParagraph two.';
+
+    testSerialization(
+      testParsing(markdown),
+      'Paragraph one.\n\nParagraph two.',
+    );
+  });
+
+  it('handles combined inline formatting', () => {
+    const markdown =
+      'This is **bold**, _italic_, ~~strike~~, and `inline code`.';
+    testMarkdownRoundTrip(markdown);
+  });
+
+  it('handles nested formatting', () => {
+    const markdown = 'Nested **bold and _italic_** text';
+    testMarkdownRoundTrip(markdown);
+  });
+
+  it('handles code block with language info', () => {
+    const markdown = "```javascript\nconsole.log('Hello, world!');\n```";
+    testMarkdownRoundTrip(markdown);
+  });
+
+  it('handles link with title attribute', () => {
+    const markdown = "[example](http://example.com 'Example Site')";
+    testSerialization(
+      testParsing(markdown),
+      `[example](http://example.com "Example Site")`,
+    );
+  });
+
+  it('handles image with title attribute', () => {
+    const markdown =
+      "![alt text](http://example.com/image.png 'Example Image')";
+
+    testSerialization(
+      testParsing(markdown),
+      `![alt text](http://example.com/image.png "Example Image")`,
+    );
+  });
+
+  it('handles escaped characters', () => {
+    const markdown = 'Escaped \\*asterisk\\* should not be bold.';
+    testMarkdownRoundTrip(markdown);
+  });
+});
