@@ -336,7 +336,7 @@ function markdown(config: RequiredConfig): CollectionType['markdown'] {
       [listNodeName]: {
         // For serialization:
         toMarkdown: (state, node, parent, index) => {
-          flatListToMarkdown(state, node, parent ?? null, index ?? 0, 0, true);
+          flatListToMarkdown(state, node, parent ?? null, index ?? 0, 0, false);
         },
         // For parsing:
         parseMarkdown: {
@@ -399,9 +399,11 @@ function flatListToMarkdown(
   // 4) Wrap each list(...) node as one item.
   //    "wrapBlock" will prefix the first line with (firstDelim) and subsequent lines with (delim).
   //    That ensures correct indentation for multiline content inside this item.
+  const firstDelim = `${baseIndent}${marker} `;
+  const subsequentIndent = ' '.repeat(firstDelim.length);
   state.wrapBlock(
-    baseIndent, // delim => subsequent lines
-    `${baseIndent + marker} `, // firstDelim => first line
+    subsequentIndent, // subsequent lines indent
+    firstDelim, // first line delimiter
     node,
     () => {
       // Render normal (non-list) children inside this item
@@ -442,14 +444,10 @@ function maybeAddBlankLine(
   // 4) Retrieve the *previous* sibling
   const prevSibling = parent.child(index - 1);
 
-  // 5) Decide if we want a blank line. For example:
-  //    Insert a blank line if it's a "separate block"
-  if (isSeparateBlock(prevSibling, node)) {
-    // "flushClose(1)" ensures exactly one blank line,
-    // "flushClose(2)" can produce 2 blank lines, etc.
-    // Adjust to match your styling preference.
-    (state as any).flushClose(1);
-  }
+  // "flushClose(1)" ensures exactly one blank line,
+  // "flushClose(2)" can produce 2 blank lines, etc.
+  // Adjust to match your styling preference.
+  (state as any).flushClose(1);
 }
 
 /**

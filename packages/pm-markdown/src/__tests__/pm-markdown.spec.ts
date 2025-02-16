@@ -234,7 +234,10 @@ describe('Markdown Parser and Serializer', () => {
     });
 
     it('should handle setext style heading level 1', () => {
-      const markdown = 'Header Level 1\n=============';
+      const markdown = `
+Header Level 1
+=============
+      `.trim();
 
       expect(testParsing(markdown).toJSON()).toEqual(
         doc(h1('Header Level 1')).toJSON(),
@@ -250,7 +253,7 @@ describe('Markdown Parser and Serializer', () => {
 ## Heading Level 2
 
 Regular paragraph text
-`.trim();
+      `.trim();
 
       testMarkdownRoundTrip(
         markdown,
@@ -283,9 +286,11 @@ Regular paragraph text
     });
 
     it('should handle multiline blockquote', () => {
-      const markdown = `> Blockquote line 1
+      const markdown = `
+> Blockquote line 1
 
-> Blockquote line 2`;
+> Blockquote line 2
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(
@@ -296,9 +301,11 @@ Regular paragraph text
     });
 
     it('should handle blockquote with multiple paragraphs', () => {
-      const markdown = `> Paragraph 1
+      const markdown = `
+> Paragraph 1
 >
-> Paragraph 2`;
+> Paragraph 2
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(blockquote(p('Paragraph 1'), p('Paragraph 2'))),
@@ -306,30 +313,46 @@ Regular paragraph text
     });
 
     it('should handle nested blockquotes', () => {
-      const markdown = `> Outer blockquote
->> Inner blockquote`;
+      const markdown = `
+> Outer blockquote
+>> Inner blockquote
+      `.trim();
       testMarkdownOutput(
         markdown,
-        `> Outer blockquote
+        `
+> Outer blockquote
 >
-> > Inner blockquote`,
+> > Inner blockquote
+        `.trim(),
       );
     });
   });
 
   describe('Code Blocks', () => {
     it('should handle fenced code block', () => {
-      const markdown = '```\nconst a = 1;\n```';
+      const markdown = `
+\`\`\`
+const a = 1;
+\`\`\`
+      `.trim();
       testMarkdownRoundTrip(markdown, doc(codeBlock('const a = 1;')));
     });
 
     it('should handle indented code block', () => {
-      const markdown = '```\n    const a = 1;\n```';
+      const markdown = `
+\`\`\`
+    const a = 1;
+\`\`\`
+      `.trim();
       testMarkdownRoundTrip(markdown, doc(codeBlock('    const a = 1;')));
     });
 
     it('should handle code block with language info', () => {
-      const markdown = "```javascript\nconsole.log('Hello, world!');\n```";
+      const markdown = `
+\`\`\`javascript
+console.log('Hello, world!');
+\`\`\`
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(
@@ -347,12 +370,19 @@ Regular paragraph text
       );
       testSerialization(
         docNode,
-        "```javascript\nconsole.log('Hello, world!');\n```",
+        `
+\`\`\`javascript
+console.log('Hello, world!');
+\`\`\`
+        `.trim(),
       );
     });
 
     it('should handle empty code block', () => {
-      const markdown = '```\n```';
+      const markdown = `
+\`\`\`
+\`\`\`
+      `.trim();
       testMarkdownRoundTrip(markdown, doc(codeBlock('')));
     });
   });
@@ -493,36 +523,43 @@ Regular paragraph text
 
   describe('Lists', () => {
     it('should handle basic bullet list', () => {
-      const markdown = '- Item 1\n- Item 2';
+      const markdown = `
+- Item 1
+- Item 2
+      `.trim();
       testMarkdownOutput(
         markdown,
         `- Item 1
-
 - Item 2`,
       );
     });
 
     it('should handle bullet list with nested items', () => {
-      const markdown = `- Item 1
+      const markdown = `
+- Item 1
   - Nested item 1
   - Nested item 2
-- Item 2`;
+- Item 2
+      `.trim();
       testMarkdownOutput(
         markdown,
-        `- Item 1
+        `
+- Item 1
 
   - Nested item 1
 
   - Nested item 2
-
-- Item 2`,
+- Item 2
+      `.trim(),
       );
     });
 
     it('should handle bullet list with different levels of nesting', () => {
-      const markdown = `- Level 1
+      const markdown = `
+- Level 1
   - Level 2
-    - Level 3`;
+    - Level 3
+      `.trim();
       testMarkdownOutput(
         markdown,
         `- Level 1
@@ -534,38 +571,36 @@ Regular paragraph text
     });
 
     it('should handle bullet list with blank lines between items (loose list)', () => {
-      const markdown = `- Item 1
+      const markdown = `
+- Item 1
 
-- Item 2`;
+- Item 2
+      `.trim();
       testMarkdownOutput(
         markdown,
         `- Item 1
-
 - Item 2`,
       ); // TODO: should be loose list
     });
     // TODO: mixed tight/loose lists
     it('should handle tight and loose lists mixed', () => {
-      const markdown = `- Item 1
+      const markdown = `
+- Item 1
 - Item 2
 
-- Item 3`;
-      testMarkdownOutput(
-        markdown,
-        `- Item 1
-
-- Item 2
-
-- Item 3`,
-      );
+- Item 3
+      `.trim();
+      testMarkdownOutput(markdown, '- Item 1\n- Item 2\n- Item 3');
     });
 
     it('should handle complex nested bullet list', () => {
-      const markdown = `- Item 1
+      const markdown = `
+- Item 1
   - Nested item 1
     - Deeply nested item 1
   - Nested item 2
-- Item 2`;
+- Item 2
+      `.trim();
 
       testMarkdownOutput(
         markdown,
@@ -577,23 +612,9 @@ Regular paragraph text
     - Deeply nested item 1
 
   - Nested item 2
-
-- Item 2`.trim(),
+- Item 2
+        `.trim(),
       );
-      //   testMarkdownRoundTrip(
-      //     markdown,
-      //     doc(
-      //       createBulletList([
-      //         'Item 1',
-      //         createBulletList([
-      //           'Nested item 1',
-      //           createBulletList('Deeply nested item 1'),
-      //           'Nested item 2',
-      //         ]),
-      //         'Item 2',
-      //       ]),
-      //     ),
-      //   );
     });
   });
 
@@ -604,11 +625,13 @@ Regular paragraph text
     });
 
     it('should handle deeply nested bullet list (3 levels)', () => {
-      const markdown = `- Level 1
+      const markdown = `
+- Level 1
 
   - Level 2
 
-    - Level 3`;
+    - Level 3
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(
@@ -648,85 +671,155 @@ Regular paragraph text
       );
     });
 
-    it('should handle nested ordered lists correctly', () => {
-      const markdown = `1. First item
+    it('should handle nested ordered without correct new line correctly', () => {
+      const markdown = `
+1. First item
 2. Second item
-   1. Nested first
-   2. Nested second
+    1. Nested first
+    2. Nested second
 3. Third item
-    `.trim();
+      `.trim();
       testMarkdownOutput(
         markdown,
         `
 1. First item
-
 2. Second item
 
   1. Nested first
 
   2. Nested second
+3. Third item
+`.trim(),
+      );
+    });
 
-3. Third item`.trim(),
+    it('should handle nested ordered without correct new line correctly', () => {
+      const markdown = `
+1. First item
+
+2. Second item
+
+    1. Nested first
+
+    2. Nested second
+
+3. Third item
+          `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+1. First item
+2. Second item
+
+  1. Nested first
+
+  2. Nested second
+3. Third item
+        `.trim(),
       );
     });
 
     it('should handle ordered lists with custom start numbers', () => {
-      const markdown = `2. First item
+      const markdown = `
+2. First item
 3. Second item
-4. Third item`;
+4. Third item
+      `.trim();
       testMarkdownOutput(
         markdown,
-        '2. First item\n\n3. Second item\n\n4. Third item',
+        `
+2. First item
+3. Second item
+4. Third item
+`.trim(),
       );
     });
 
     it('should handle mixed ordered and bullet lists', () => {
-      const markdown = `1. Ordered item 1
+      const markdown = `
+1. Ordered item 1
 - Bullet sub-item
 2. Ordered sub-item
-2. Ordered item 2`;
+2. Ordered item 2
+      `.trim();
       testMarkdownOutput(
         markdown,
-        '1. Ordered item 1\n\n- Bullet sub-item\n\n2. Ordered sub-item\n\n3. Ordered item 2',
+        `
+1. Ordered item 1
+- Bullet sub-item
+2. Ordered sub-item
+3. Ordered item 2
+`.trim(),
       );
     });
 
     it('should handle ordered lists with paragraphs between items', () => {
-      const markdown = `1. First item
+      const markdown = `
+1. First item
 
 2. Second item with
 multiple lines
 
-3. Third item`;
+3. Third item
+      `.trim();
       testMarkdownOutput(
         markdown,
-        '1. First item\n\n2. Second item with multiple lines\n\n3. Third item',
+        `
+1. First item
+2. Second item with multiple lines
+3. Third item
+`.trim(),
       );
     });
 
     it('should handle ordered list with different start numbers', () => {
-      const markdown = `10. Item 1
+      const markdown = `
+10. Item 1
 11. Item 2
-9. Item 3`; // Out of order numbers
-      testMarkdownOutput(markdown, '10. Item 1\n\n11. Item 2\n\n12. Item 3');
+9. Item 3
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+10. Item 1
+11. Item 2
+12. Item 3
+`.trim(),
+      );
     });
 
     it('should handle ordered list with inconsistent numbering but should still be ordered list', () => {
-      const markdown = `1. Item 1
+      const markdown = `
+1. Item 1
 5. Item 2
-2. Item 3`; // Inconsistent numbers
-      testMarkdownOutput(markdown, '1. Item 1\n\n2. Item 2\n\n3. Item 3');
+2. Item 3
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+1. Item 1
+2. Item 2
+3. Item 3
+`.trim(),
+      );
     });
   });
 
   describe('Hard Break', () => {
     it('should handle hard break', () => {
-      const markdown = 'Line 1\\\nLine 2';
+      const markdown = `
+Line 1\\
+Line 2
+      `.trim();
       testMarkdownRoundTrip(markdown, doc(p('Line 1', hardBreak(), 'Line 2')));
     });
 
     it('should handle multiple hard breaks in a paragraph', () => {
-      const markdown = 'Line 1\\\nLine 2\\\nLine 3';
+      const markdown = `
+Line 1\\
+Line 2\\
+Line 3
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(p('Line 1', hardBreak(), 'Line 2', hardBreak(), 'Line 3')),
@@ -739,7 +832,10 @@ multiple lines
     });
 
     it('should handle hard break followed by other inline marks', () => {
-      const markdown = 'Line 1\\\n**Bold text**';
+      const markdown = `
+Line 1\\
+**Bold text**
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(p('Line 1', hardBreak(), bold('Bold text'))),
@@ -838,11 +934,15 @@ multiple lines
     });
 
     it('should handle link with complex text content', () => {
-      const markdown = '[**bold** and *italic* link text](http://example.com)';
+      const markdown = `
+[**bold** and _italic_ link text](http://example.com)
+      `.trim();
       testMarkdownOutput(
         markdown,
         // TODO not ideal
-        '**[bold** and _italic](http://example.com)_ link text](http://example.com)',
+        `
+**[bold** and _italic](http://example.com)_ link text](http://example.com)
+        `.trim(),
       );
     });
 
@@ -885,13 +985,26 @@ multiple lines
     });
 
     it('should handle multiple consecutive newlines', () => {
-      const markdown = 'Paragraph one.\n\n\nParagraph two.';
-      testMarkdownOutput(markdown, 'Paragraph one.\n\nParagraph two.');
+      const markdown = `
+Paragraph one.
+
+
+Paragraph two.
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+Paragraph one.
+
+Paragraph two.
+        `.trim(),
+      );
     });
 
     it('should handle combined inline formatting', () => {
-      const markdown =
-        'This is **bold**, _italic_, ~~strike~~, and `inline code`.';
+      const markdown = `
+This is **bold**, _italic_, ~~strike~~, and \`inline code\`.
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(
@@ -911,8 +1024,15 @@ multiple lines
     });
 
     it('should handle nested formatting: bold and italic', () => {
-      const markdown = 'Nested **bold and *italic* text**';
-      testMarkdownOutput(markdown, 'Nested **bold and _italic_ text**');
+      const markdown = `
+Nested **bold and _italic_ text**
+      `.trim();
+      testMarkdownOutput(
+        markdown,
+        `
+Nested **bold and _italic_ text**
+        `.trim(),
+      );
       assertParsedMarkdown(
         markdown,
         doc(p('Nested ', bold('bold and ', italic('italic'), ' text'))),
@@ -920,7 +1040,9 @@ multiple lines
     });
 
     it('should handle nested formatting: italic and bold', () => {
-      const markdown = 'Nested _italic and **bold** text_';
+      const markdown = `
+Nested _italic and **bold** text_
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(p('Nested ', italic('italic and ', bold('bold'), ' text'))),
@@ -928,8 +1050,20 @@ multiple lines
     });
 
     it('should handle code block with language info', () => {
-      const markdown = "```javascript\nconsole.log('Hello, world!');\n```";
-      testMarkdownRoundTrip(markdown);
+      const markdown = `
+\`\`\`javascript
+console.log('Hello, world!');
+\`\`\`
+      `.trim();
+      testMarkdownRoundTrip(
+        markdown,
+        doc(
+          codeBlock(
+            { language: 'javascript' },
+            "console.log('Hello, world!');",
+          ),
+        ),
+      );
     });
 
     it('should handle link with title attribute', () => {
@@ -982,7 +1116,9 @@ multiple lines
     });
 
     it('should handle mixed escaped and unescaped special characters', () => {
-      const markdown = 'This is \\*not bold\\* but this is **bold**';
+      const markdown = `
+This is \\*not bold\\* but this is **bold**
+      `.trim();
       testMarkdownRoundTrip(
         markdown,
         doc(p('This is *not bold* but this is ', bold('bold'))),
