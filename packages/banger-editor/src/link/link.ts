@@ -525,15 +525,52 @@ function markdown(config: RequiredConfig): CollectionType['markdown'] {
       [name]: {
         toMarkdown: {
           open(_state, mark, parent, index) {
-            return isPlainURL(mark, parent, index, 1) ? '<' : '[';
+            if (isPlainURL(mark, parent, index, 1)) {
+              const prev = index > 0 ? parent.child(index - 1) : null;
+              if (
+                !prev ||
+                !prev.isText ||
+                !prev.marks.some((m) => m.type === mark.type)
+              ) {
+                return '<';
+              }
+              return '';
+            }
+            const prev = index > 0 ? parent.child(index - 1) : null;
+            if (
+              !prev ||
+              !prev.isText ||
+              !prev.marks.some((m) => m.type === mark.type)
+            ) {
+              return '[';
+            }
+            return '';
           },
           close(state, mark, parent, index) {
             if (isPlainURL(mark, parent, index, -1)) {
-              return '>';
+              const next =
+                index < parent.childCount - 1 ? parent.child(index + 1) : null;
+              if (
+                !next ||
+                !next.isText ||
+                !next.marks.some((m) => m.type === mark.type)
+              ) {
+                return '>';
+              }
+              return '';
             }
-            const { href, title } = readLinkAttrs(mark) ?? {};
-            const titleAttr = title ? ` ${quote(title)}` : '';
-            return `](${state.esc(href || '')}${titleAttr})`;
+            const next =
+              index < parent.childCount - 1 ? parent.child(index + 1) : null;
+            if (
+              !next ||
+              !next.isText ||
+              !next.marks.some((m) => m.type === mark.type)
+            ) {
+              const { href, title } = readLinkAttrs(mark) ?? {};
+              const titleAttr = title ? ` ${quote(title)}` : '';
+              return `](${state.esc(href || '')}${titleAttr})`;
+            }
+            return '';
           },
         },
         parseMarkdown: {
@@ -590,6 +627,6 @@ function isPlainURL(link: Mark, parent: PMNode, index: number, side: number) {
 }
 
 function quote(str: string) {
-  const wrap = str.includes('"') ? "'" : '"';
+  const wrap = str.includes("'") ? '"' : "'";
   return wrap + str + wrap;
 }

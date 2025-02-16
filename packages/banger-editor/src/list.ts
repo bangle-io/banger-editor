@@ -394,9 +394,6 @@ function flatListToMarkdown(
   } else if (attrs?.kind === LIST_KIND.TASK) {
     marker = attrs.checked ? '- [x]' : '- [ ]';
   }
-
-  // 3) Indentation grows with nesting level.
-  //    level=0 => ""; level=1 => "  "; etc.
   const baseIndent = '  '.repeat(level);
 
   // 4) Wrap each list(...) node as one item.
@@ -418,7 +415,8 @@ function flatListToMarkdown(
 
   node.forEach((child, childOffset) => {
     if (child.type.name === node.type.name) {
-      flatListToMarkdown(state, child, node, childOffset, level + 1, tight);
+      const childLevel = level + 1;
+      flatListToMarkdown(state, child, node, childOffset, childLevel, tight);
     }
   });
 }
