@@ -17,10 +17,10 @@
     "p-map": "^7.0.3",
     "postcss": "^8.4.49",
     "prettier": "3.4.2",
-    "syncpack": "^13.0.0",
+    "syncpack": "^13.0.3",
     "ts-node": "^10.9.2",
-    "type-fest": "^4.31.0",
-    "zod": "^3.24.1"
+    "type-fest": "^4.38.0",
+    "zod": "^3.24.2"
   },
   "main": "index.ts",
   "module": "index.ts",

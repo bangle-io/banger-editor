@@ -4,10 +4,10 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@manypkg/cli": "^0.23.0",
-    "@types/node": "^22.10.5",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
-    "tsx": "^4.19.2"
+    "@types/node": "^22.13.14",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
   },
   "manypkg": {
     "defaultBranch": "main",

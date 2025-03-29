@@ -36,13 +36,13 @@
   "devDependencies": {
     "@bangle.dev/packager": "workspace:*",
     "@types/markdown-it": "^14.1.2",
-    "prosemirror-markdown": "^1.13.1",
-    "prosemirror-model": "^1.24.1",
-    "tsconfig": "workspace:*",
-    "tsup": "^8.3.5",
-    "tsup-config": "workspace:*",
+    "banger-editor": "workspace:*",
+    "prosemirror-markdown": "^1.13.2",
+    "prosemirror-model": "^1.25.0",
     "prosemirror-test-builder": "^1.1.1",
-    "banger-editor": "workspace:*"
+    "tsconfig": "workspace:*",
+    "tsup": "^8.4.0",
+    "tsup-config": "workspace:*"
   },
   "peerDependencies": {
     "prosemirror-markdown": "*"

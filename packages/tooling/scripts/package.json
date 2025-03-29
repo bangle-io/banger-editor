@@ -2,6 +2,7 @@
   "name": "@bangle.dev/scripts",
   "version": "1.0.0",
   "dependencies": {
+    "@bangle.dev/packager": "workspace:*",
     "@jest/globals": "^29.7.0",
     "@tsconfig/node18": "^18.2.4",
     "@types/fs-extra": "^11.0.4",
@@ -13,11 +14,10 @@
     "p-map": "^7.0.3",
     "postcss": "^8.4.49",
     "prettier": "3.4.2",
-    "syncpack": "^13.0.0",
+    "syncpack": "^13.0.3",
     "ts-node": "^10.9.2",
     "yargs": "^17.7.2",
-    "zod": "^3.24.1",
-    "@bangle.dev/packager": "workspace:*"
+    "zod": "^3.24.2"
   },
   "main": "src/index.ts",
   "module": "src/index.ts",
