@@ -6,7 +6,7 @@
     "@manypkg/cli": "^0.23.0",
     "@types/node": "^22.10.5",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
+    "vitest": "^2.1.9",
     "tsx": "^4.19.2"
   },
   "manypkg": {
