@@ -55,7 +55,10 @@ export const listMarkdownPlugin: PluginWithOptions<
             token.attrSet('data-bangle-list-kind', currentListInfo.kind);
           }
           // Set the tight attribute based on the parent list's status
-          token.attrSet('data-bangle-list-tight', String(currentListInfo.tight));
+          token.attrSet(
+            'data-bangle-list-tight',
+            String(currentListInfo.tight),
+          );
         }
       }
     }
@@ -64,17 +67,21 @@ export const listMarkdownPlugin: PluginWithOptions<
 
   // 2) After the "inline" rule, detect if a list item is a todo/task.
   //    This needs to run *after* bangle-list-kind-attrs potentially sets the kind.
-  md.core.ruler.after('bangle-list-kind-attrs', 'bangle-task-lists', (state) => {
-    const tokens = state.tokens;
-    // Start at 2 because we reference tokens[i-1] and tokens[i-2].
-    for (let i = 2; i < tokens.length; i++) {
-      if (isTodoItem(tokens, i)) {
-        // Pass the list_item_open token (i-2) to modify its attributes
-        convertToTaskItem(tokens, i);
+  md.core.ruler.after(
+    'bangle-list-kind-attrs',
+    'bangle-task-lists',
+    (state) => {
+      const tokens = state.tokens;
+      // Start at 2 because we reference tokens[i-1] and tokens[i-2].
+      for (let i = 2; i < tokens.length; i++) {
+        if (isTodoItem(tokens, i)) {
+          // Pass the list_item_open token (i-2) to modify its attributes
+          convertToTaskItem(tokens, i);
+        }
       }
-    }
-    return false;
-  });
+      return false;
+    },
+  );
 
   // 3) Override renderToken to ensure tasks render with the proper attributes.
   //    (This affects HTML rendering if using markdown-it directly, less relevant for PM parsing)
