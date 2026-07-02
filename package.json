@@ -21,6 +21,6 @@
     "lint:fix": "pnpm biome check --fix",
     "test:ci": "pnpm vitest run",
     "typecheck": "tsc -b",
-    "publish-alpha": "pnpm -r --filter \"./packages/**\"  publish --tag alpha --otp ${npm_config_otp} --access public"
+    "publish-alpha": "pnpm -r --filter \"./packages/**\"  publish --tag alpha --otp ${npm_config_otp} --access public --no-git-checks"
   }
 }
