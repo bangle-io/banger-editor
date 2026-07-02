@@ -2,6 +2,7 @@ import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { findRootSync } from '@manypkg/find-root';
 import type { Package } from '@manypkg/get-packages';
+import { getPackages } from '@manypkg/get-packages';
 import type { PackageJSON } from '@manypkg/tools';
 import fs from 'fs-extra';
 import { globby } from 'globby';
@@ -106,7 +107,7 @@ class Packager {
       return this;
     }
 
-    const result = await this.root.tool.getPackages(this.config.rootDir);
+    const result = await getPackages(this.config.rootDir);
     this.packages = result.packages;
     this.initialized = true;
 

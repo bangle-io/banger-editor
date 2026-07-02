@@ -1,9 +1,8 @@
+export type { ParseSpec } from 'prosemirror-markdown';
 export {
-  MarkdownSerializer,
-  MarkdownParser,
-  MarkdownSerializerState,
   defaultMarkdownParser,
   defaultMarkdownSerializer,
+  MarkdownParser,
+  MarkdownSerializer,
+  MarkdownSerializerState,
 } from 'prosemirror-markdown';
-
-export type { ParseSpec } from 'prosemirror-markdown';

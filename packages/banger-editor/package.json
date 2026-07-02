@@ -7,7 +7,12 @@
     "url": "http://github.com/kepta"
   },
   "description": "A modern collection of ProseMirror packages for building powerful editing experiences",
-  "keywords": ["prosemirror", "rich text editor", "editor", "typescript"],
+  "keywords": [
+    "prosemirror",
+    "rich text editor",
+    "editor",
+    "typescript"
+  ],
   "homepage": "https://bangle.io",
   "bugs": {
     "url": "https://github.com/bangle-io/banger-editor/issues"
@@ -23,18 +28,20 @@
     "access": "public"
   },
   "main": "./src/index.ts",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "prepublishOnly": "tsx ../../packages/tooling/scripts/prepublish-run.ts",
     "postpublish": "tsx ../../packages/tooling/scripts/postpublish-run.ts",
     "build:tsup": "tsup --config tsup.config.ts"
   },
   "dependencies": {
-    "jotai": "^2.12.2"
+    "jotai": "^2.20.1"
   },
   "devDependencies": {
     "@bangle.dev/packager": "workspace:*",
-    "@types/orderedmap": "^2.0.0",
     "orderedmap": "^2.1.1",
     "prosemirror-commands": "^1.7.1",
     "prosemirror-dropcursor": "^1.8.2",
@@ -51,7 +58,7 @@
     "prosemirror-transform": "^1.12.0",
     "prosemirror-view": "^1.42.0",
     "tsconfig": "workspace:*",
-    "tsup": "^8.4.0",
+    "tsup": "^8.5.1",
     "tsup-config": "workspace:*"
   },
   "peerDependencies": {

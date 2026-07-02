@@ -4,11 +4,12 @@ import {
   currentPublishingPkgName,
   findRoot,
 } from '@bangle.dev/packager';
+import { getPackages } from '@manypkg/get-packages';
 import fs from 'fs-extra';
 
 async function main() {
   const root = await findRoot(process.cwd());
-  const pkg = (await root.tool.getPackages(root.rootDir)).packages.find(
+  const pkg = (await getPackages(root.rootDir)).packages.find(
     (pkg) => pkg.packageJson.name === currentPublishingPkgName,
   );
   if (!pkg) {

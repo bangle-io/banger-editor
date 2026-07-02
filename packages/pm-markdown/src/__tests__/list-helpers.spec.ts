@@ -22,7 +22,7 @@ function getListItemDetails(
       type: t.type,
       content: t.content,
       map: t.map,
-      // @ts-ignore
+      // @ts-expect-error
       tight: t.tight,
       level: t.level,
     })),

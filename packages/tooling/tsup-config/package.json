@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "devDependencies": {
     "@bangle.dev/packager": "workspace:*",
-    "tsup": "^8.4.0",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "tsup": "^8.5.1",
+    "tsx": "^4.22.5",
+    "typescript": "^6.0.3"
   },
   "license": "MIT",
   "main": "index.mjs",

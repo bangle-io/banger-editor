@@ -1,11 +1,12 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
   "files": {
-    "ignore": [
-      "missing-test-types.d.ts",
-      "packages/tooling/tsup-config",
-      "packages/tooling/tsconfig",
-      ".vscode/settings.json"
+    "includes": [
+      "**",
+      "!**/missing-test-types.d.ts",
+      "!**/packages/tooling/tsup-config",
+      "!**/packages/tooling/tsconfig",
+      "!**/.vscode/settings.json"
     ]
   },
   "vcs": {
@@ -21,32 +22,31 @@
     "lineEnding": "lf",
     "lineWidth": 80,
     "attributePosition": "auto",
-    "ignore": [
-      "**/.cache",
-      "**/.DS_Store",
-      "**/.idea",
-      "**/.vscode",
-      "**/.yarnrc.yml",
-      "**/*.hbs",
-      "**/*.md",
-      "**/build",
-      "**/CHANGELOG.md",
-      "**/coverage",
-      "**/dist",
-      "**/jsconfig-base.json",
-      "**/jsconfig.json",
-      "**/node_modules",
-      "**/npm-debug.log",
-      "**/tsconfig.json"
+    "includes": [
+      "**",
+      "!**/.cache",
+      "!**/.DS_Store",
+      "!**/.idea",
+      "!**/.vscode",
+      "!**/.yarnrc.yml",
+      "!**/*.hbs",
+      "!**/*.md",
+      "!**/build",
+      "!**/CHANGELOG.md",
+      "!**/coverage",
+      "!**/dist",
+      "!**/jsconfig-base.json",
+      "!**/jsconfig.json",
+      "!**/node_modules",
+      "!**/npm-debug.log",
+      "!**/tsconfig.json"
     ]
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "style": {
         "useTemplate": "info",
         "useImportType": "error"

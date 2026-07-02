@@ -2,18 +2,18 @@
   "name": "@bangle.dev/banger-editor-root",
   "version": "1.0.0",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@manypkg/cli": "^0.23.0",
-    "@types/node": "^22.13.14",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.9"
+    "@biomejs/biome": "2.5.2",
+    "@manypkg/cli": "^0.25.1",
+    "@types/node": "^26.1.0",
+    "tsx": "^4.22.5",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   },
   "manypkg": {
     "defaultBranch": "main",
     "workspaceProtocol": "allow"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@11.9.0",
   "private": true,
   "scripts": {
     "lint": "pnpm biome check",

@@ -15,8 +15,8 @@ import type { PMNode } from 'banger-editor/pm';
 import { setupStrike } from 'banger-editor/strike';
 import { Schema } from 'prosemirror-model';
 import {
-  type NodeBuilder,
   builders as createBuilders,
+  type NodeBuilder,
 } from 'prosemirror-test-builder';
 import { describe, expect, it } from 'vitest';
 import { markdownLoader } from '../markdown';

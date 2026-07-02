@@ -1,19 +1,18 @@
-export {
-  setGlobalConfig,
-  resolve,
-  collection,
-  type CollectionType,
-  type MarkdownConfig,
-  type MarkdownNodeConfig,
-  type MarkdownMarkConfig,
-} from './common';
-
 export * from './active-node';
 export * from './base';
 export * from './blockquote';
 export * from './bold';
-export * from './code-block';
 export * from './code';
+export * from './code-block';
+export {
+  type CollectionType,
+  collection,
+  type MarkdownConfig,
+  type MarkdownMarkConfig,
+  type MarkdownNodeConfig,
+  resolve,
+  setGlobalConfig,
+} from './common';
 export * from './drag';
 export * from './drop-gap-cursor';
 export * from './hard-break';

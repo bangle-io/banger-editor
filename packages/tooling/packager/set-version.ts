@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { getPackages } from '@manypkg/get-packages';
 import type { MonorepoRoot, Package } from '@manypkg/tools';
 import fs from 'fs-extra';
 import { execa } from './execa';
@@ -167,7 +168,7 @@ export async function setVersion(
 
   // Update versions in all packages
   await Promise.all(
-    (await root.tool.getPackages(root.rootDir)).packages.map((pkg) =>
+    (await getPackages(root.rootDir)).packages.map((pkg) =>
       updatePackageVersion(pkg, version, resolvedConfig.dry),
     ),
   );

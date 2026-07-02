@@ -1,19 +1,20 @@
-import { Fragment, type MarkType, PMNode } from '../pm';
+import type { Logger } from '../common';
 import {
   type Command,
   type EditorState,
+  Fragment,
+  type MarkType,
   Plugin,
   PluginKey,
+  PMNode,
   Selection,
 } from '../pm';
-
-import type { Logger } from '../common';
-import { getMarkType } from '../pm-utils';
 import {
-  type MarkScanResult,
   clampRange,
   findFirstMarkPosition,
+  getMarkType,
   isTextSelection,
+  type MarkScanResult,
   safeInsert,
 } from '../pm-utils';
 import { store } from '../store';
